@@ -1,9 +1,6 @@
 # rwa-stablecoin-risk-spark
 Risk and solvency stress testing for RWA-backed stablecoins using DeFi protocol data
 
-
-# RWA-backed Stablecoin Risk Analysis (Spark Case Study)
-
 This project builds a transparent and reproducible risk framework to analyze
 the solvency and liquidity of an RWA-backed stablecoin system, using Spark
 (Maker / Sky ecosystem) as a system-level case study.
