@@ -1,79 +1,41 @@
 # rwa-stablecoin-risk-spark
-Risk and solvency stress testing for RWA-backed stablecoins using DeFi protocol data
+RWA Stablecoin Solvency & Liquidity Stress Testing (Spark Case Study)
 
-This project builds a transparent and reproducible risk framework to analyze
-the solvency and liquidity of an RWA-backed stablecoin system, using Spark
-(Maker / Sky ecosystem) as a system-level case study.
+This project builds a small, reproducible risk framework to analyze solvency and liquidity risks in an RWA-backed stablecoin system, using Spark (Maker / Sky ecosystem) as a case study. The focus is on asset–liability management (ALM) under interest-rate shocks, asset valuation haircuts, and redemption-driven liquidity stress.
 
-The focus is on asset–liability management (ALM), interest-rate risk, and
-redemption-driven liquidity stress — core risks for tokenized U.S. Treasury
-and stablecoin protocols.
+All analysis is based on public, reproducible data and simplified economic assumptions.
 
+## Method Overview
 
-## Motivation
+Asset-side proxy
 
-As real-world assets (RWAs), especially U.S. Treasuries, are increasingly used
-to back on-chain stablecoins, protocol stability depends not only on total
-asset value, but also on:
+	•	Protocol-level TVL from DeFiLlama (Spark)
+	•	Used as a transparent proxy for reserve assets
 
-- Interest-rate sensitivity (duration risk)
-- Asset haircuts and valuation shocks
-- Redemption dynamics and settlement delays
-- Capital buffer adequacy
+Notebook 01 — Data construction
 
-This project aims to translate traditional ALM and stress-testing concepts
-into a DeFi-native, on-chain context.
+	•	Pulls and cleans historical TVL data
+	•	Produces an asset-side time series for downstream analysis
 
-## Data Sources & Proxies
+Notebook 02 — Solvency stress testing
 
-This analysis intentionally avoids proprietary dashboards and relies on fully
-reproducible public data.
+	•	Infers liabilities from a target collateral ratio
+	•	Applies simplified duration-based sensitivity to interest-rate shocks
+	•	Evaluates post-shock collateral ratios across haircut scenarios
 
-- **Asset-side proxy**
-  - Protocol-level TVL from DefiLlama (Spark)
-  - Used as a transparent proxy for system reserves
-- **Liability-side**
-  - Stablecoin total supply (assumed $1 par value)
-- **Interest rates**
-  - U.S. Treasury yields from FRED (DGS1)
+Notebook 03 — Liquidity stress testing
 
-All proxy assumptions are explicitly stated and can be refined in future work.
+	•	Models redemption shocks and settlement delays
+	•	Estimates cash availability vs. redemption demand
+	•	Identifies liquidity shortfall regions via heatmaps
 
+## Key Assumptions
+	•	TVL is used as a proxy for reserve assets
+	•	Liabilities are assumed to redeem at par
+	•	Duration and liquidity parameters are simplified for clarity
+	•	Results are illustrative, not predictive
 
-## Methodology
-
-The framework is structured in three layers:
-
-1. **Data ingestion**
-   - Pull protocol TVL history
-   - Fetch Treasury yields
-   - Read stablecoin supply
-2. **Solvency stress testing**
-   - Duration-based price sensitivity
-   - Interest-rate shock scenarios
-   - Asset haircuts
-   - Collateral Ratio (Assets / Liabilities)
-3. **Liquidity stress testing**
-   - Redemption shocks
-   - Settlement lag assumptions (T+1 / T+2)
-   - Cash shortfall and buffer analysis
-  
-
-rwa-stablecoin-risk-spark/
-├── README.md
-├── notebooks/
-
-│   ├── 01_data_fetch.ipynb
-│   ├── 02_solvency_stress.ipynb
-│   └── 03_liquidity_stress.ipynb
-
-├── data/
-│   └── spark_assets_proxy.csv
-└── figures/
-├── spark_tvl_timeseries.png
-├── collateral_ratio_curve.png
-└── liquidity_shortfall_heatmap.png
-
+All assumptions are explicit and can be refined in future extensions.
 
 ## Disclaimer
 
